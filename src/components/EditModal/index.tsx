@@ -7,7 +7,7 @@ type ModalProps = {
   visible: boolean;
   setVisible: (v: boolean) => void;
   onSave: (newRecord: InventoryItem) => void;
-  slectedRow: InventoryItem;
+  slectedRow: any;
 };
 
 const EditModal: React.FC<ModalProps> = ({ visible, setVisible, onSave, slectedRow }) => {
@@ -27,7 +27,7 @@ const EditModal: React.FC<ModalProps> = ({ visible, setVisible, onSave, slectedR
   }, [slectedRow]);
 
   const handleChange = (key: string, value: string | number) => {
-    setFormValue(ps => ({ ...ps, [key]: value }));
+    setFormValue((ps: any) => ({ ...ps, [key]: value }));
   };
 
   const inputBoxConfig = [
@@ -43,7 +43,7 @@ const EditModal: React.FC<ModalProps> = ({ visible, setVisible, onSave, slectedR
       title="Edit Value"
       open={visible}
       onOk={() => {
-        const formattedRow = {} as InventoryItem;
+        const formattedRow = {} as Record<string, unknown>;
         for (const key in formValue) {
           const value = formValue[key];
           if (['price', 'value'].includes(key)) {
@@ -53,7 +53,7 @@ const EditModal: React.FC<ModalProps> = ({ visible, setVisible, onSave, slectedR
           } else formattedRow[key] = value;
         }
         console.log({ formattedRow });
-        onSave(formattedRow);
+        onSave(formattedRow as any);
       }}
       onCancel={() => setVisible(false)}
     >
